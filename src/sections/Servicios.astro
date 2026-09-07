@@ -1,0 +1,116 @@
+---
+// src/sections/Servicios.astro
+
+interface Props {
+    nombreZona?: string;
+    region?: string;
+}
+
+const { 
+    nombreZona = "Tucumán", 
+    region = "Tucumán" 
+} = Astro.props;
+
+// Teléfono para los enlaces de las tarjetas
+const telefono = import.meta.env.PUBLIC_TELEPHONE?.replace('+', '') || "5493810000000";
+
+const servicios = [
+    {
+        titulo: "Apertura de Autos",
+        descripcion: "Destrabamos vehículos nacionales e importados sin dañar la cerradura ni rayar la pintura.",
+        gatillo: "Llegamos a tu ubicación en 20 min.",
+        icono: `<svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h8M9 11h6m-9 9h10a2 2 0 002-2v-5.26c0-.49-.24-.95-.64-1.22l-2-1.33A2 2 0 0014.24 9H9.76c-.44 0-.86.15-1.22.42l-2 1.33A1.5 1.5 0 005.9 11.96V19a2 2 0 002 2z"></path><circle cx="8" cy="16" r="1" fill="currentColor"></circle><circle cx="16" cy="16" r="1" fill="currentColor"></circle></svg>`
+    },
+    {
+        titulo: "Apertura de Casas",
+        descripcion: "Puertas trabadas, llaves perdidas o puestas por dentro. Para casas, departamentos y locales comerciales.",
+        gatillo: "Aperturas urgentes 100% sin roturas.",
+        icono: `<svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>`
+    },
+    {
+        titulo: "Cajas Fuertes",
+        descripcion: "Especialistas en apertura, reparación y cambio de combinación de cajas fuertes mecánicas y digitales.",
+        gatillo: "Discreción y profesionalismo garantizado.",
+        icono: `<svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>`
+    },
+    {
+        titulo: "Cambios de Combinación",
+        descripcion: "Ideal para mudanzas o pérdida de llaves. Modificamos la combinación de tu cerradura actual por seguridad.",
+        gatillo: "Aseguramos tu propiedad en el día.",
+        icono: `<svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>`
+    }
+];
+---
+
+<section id="servicios" class="relative py-20 md:py-32 bg-fondo-nav border-t border-borde overflow-hidden">
+    
+    <!-- Textura de fondo (Puntos) -->
+    <div class="absolute inset-0 z-0 pointer-events-none opacity-20" style="background-image: radial-gradient(#374151 1px, transparent 1px); background-size: 24px 24px;"></div>
+    
+    <!-- Resplandor (Glow) central -->
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-marca-suave/5 rounded-full blur-[120px] pointer-events-none z-0"></div>
+
+    <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <!-- Encabezado de Sección -->
+        <div class="text-center max-w-3xl mx-auto mb-16 md:mb-20">
+            <h2 class="text-3xl md:text-5xl font-black text-white leading-tight tracking-tight mb-4">
+                Servicios de Cerrajería en <br class="hidden sm:block" />
+                <span class="text-marca-suave">{nombreZona}</span>
+            </h2>
+            <p class="text-gray-400 text-base md:text-xl font-medium">
+                Brindamos soluciones rápidas y garantizadas en <span class="text-gray-200">{nombreZona}</span> y alrededores.
+            </p>
+        </div>
+
+        <!-- Grid de Servicios Interactivos -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+            {servicios.map((servicio) => {
+                // Generamos un mensaje específico para cada servicio
+                const mensaje = `Hola, necesito ayuda con: ${servicio.titulo} en ${nombreZona}`;
+                const urlServicioWpp = `https://wa.me/${telefono}?text=${encodeURIComponent(mensaje)}`;
+                
+                return (
+                    <div class="flex flex-col bg-fondo-card border border-borde rounded-2xl p-6 md:p-8 hover:-translate-y-1 hover:border-marca/50 hover:shadow-xl transition-all duration-300 group text-left relative overflow-hidden">
+                        
+                        <!-- Ícono limpio y grande -->
+                        <div class="text-marca group-hover:text-marca-suave group-hover:scale-110 transition-all duration-300 mb-6 drop-shadow-lg">
+                            <Fragment set:html={servicio.icono} />
+                        </div>
+                        
+                        <!-- Textos -->
+                        <h3 class="text-xl font-bold text-white mb-3 tracking-wide group-hover:text-marca-suave transition-colors">
+                            {servicio.titulo}
+                        </h3>
+                        <p class="text-gray-400 text-sm leading-relaxed mb-6">
+                            {servicio.descripcion}
+                        </p>
+                        
+                        <!-- Gatillo de urgencia -->
+                        <div class="border-t border-borde/50 pt-4 mb-4">
+                            <p class="text-gray-200 font-bold text-sm">
+                                {servicio.gatillo}
+                            </p>
+                        </div>
+                        
+                        <!-- Micro CTA -->
+                        <a 
+                            href={urlServicioWpp} 
+                            target="_blank" 
+                            rel="noopener noreferrer" 
+                            onclick="gtag('event', 'conversion', {'send_to': 'AW-XXXXXXXXXX/TU_CODIGO_DE_CONVERSION'});"
+                            class="mt-auto w-full py-3 px-4 rounded-xl bg-marca hover:bg-marca-hover text-white font-bold text-base flex items-center justify-center gap-2 shadow-md hover:shadow-lg transition-all active:scale-95"
+                        >
+                            <span>Solicitar servicio</span>
+                            <svg class="w-5 h-5 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                            </svg>
+                        </a>
+
+                    </div>
+                )
+            })}
+        </div>
+
+    </div>
+</section>

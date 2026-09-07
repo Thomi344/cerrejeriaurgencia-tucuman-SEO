@@ -1,0 +1,23 @@
+# Archivo: public/.htaccess
+
+Options -MultiViews
+RewriteEngine On
+RewriteBase /
+
+# 1. Forzar HTTPS (Crucial para seguridad y SEO)
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
+
+# 2. Forzar la barra final (trailing slash) en URLs que no sean archivos físicos (.jpg, .css, etc.)
+# Esto previene el error de URL canónica y contenido duplicado.
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_URI} !(.*)/$
+RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1/ [L,R=301]
+
+# 3. Servir el index.html de subcarpetas si existe (Vital para las rutas estáticas de Astro)
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteCond %{REQUEST_FILENAME}/index.html -f
+RewriteRule ^(.*)$ $1/index.html [L]
+
+# 4. Manejo de error 404 personalizado
+ErrorDocument 404 /404.html

@@ -1,0 +1,90 @@
+---
+// src/pages/[zona].astro
+
+import Layout from '../layouts/Layout.astro';
+import { zonas } from '../data/zonas.js';
+
+import Header from '../sections/Header.astro';
+import Hero from '../sections/Hero.astro';
+import Servicios from '../sections/Servicios.astro';
+import Beneficios from '../sections/Beneficios.astro'
+/*
+import Hero from '../sections/Hero.astro';
+import Footer from '../sections/Footer.astro';
+import Servicios from '../sections/Servicios.astro';
+import Beneficios from '../sections/Beneficios.astro';
+import Galeria from '../sections/Galeria.astro';
+import Opiniones from '../sections/Opiniones.astro';
+import Faq from '../sections/Faq.astro';
+*/
+export function getStaticPaths() {
+    const rutas: any[] = [];
+
+    // Función para crear URLs limpias
+    const limpiarParaUrl = (texto: string) => {
+        return String(texto).toLowerCase()
+            .normalize("NFD").replace(/[\u0300-\u036f]/g, "") // Quita acentos
+            .replace(/[^a-z0-9]+/g, '-') // Cambia espacios por guiones
+            .replace(/(^-|-$)+/g, ''); // Quita guiones de los bordes
+    };
+
+    // --- Mapeamos cada zona para crear su página automáticamente ---
+    zonas.forEach(zonaData => {
+        
+        // 1. PÁGINA PARA LA ZONA PRINCIPAL (Ej: /cerrajero-zona-yerba-buena)
+        const slugZona = limpiarParaUrl(zonaData.nombre);
+        rutas.push({
+            params: { zona: `cerrajero-zona-${slugZona}` },
+            props: { infoZona: { ...zonaData, nombreDinamico: zonaData.nombre } }, 
+        });
+
+        // 2. PÁGINAS INDIVIDUALES POR BARRIO (Ej: /cerrajero-zona-barrio-norte)
+        zonaData.barrios.forEach(barrio => {
+            const slugBarrio = limpiarParaUrl(barrio);
+            rutas.push({
+                params: { zona: `cerrajero-zona-${slugBarrio}` },
+                props: { infoZona: { ...zonaData, nombreDinamico: barrio } }, 
+            });
+        });
+
+    });
+
+    return rutas;
+}
+
+// --- Recibimos la información de la zona en la que estamos parados ---
+const { infoZona } = Astro.props;
+
+// --- Si por alguna razón infoZona es undefined, evitamos que la página explote ---
+if (!infoZona) {
+    return Astro.redirect('/404');
+}
+---
+
+<Layout 
+    title={`Cerrajero de Urgencia en ${infoZona.nombreDinamico} | 24 Horas | Cerrajería Tucumán`} 
+    description={`¿Necesitás un cerrajero rápido en ${infoZona.nombreDinamico}? Apertura de autos, casas y cajas fuertes las 24hs. Servicio garantizado en ${infoZona.region}.`}
+    nombreZona={infoZona.nombreDinamico}
+>
+
+    <Header nombreZona={infoZona.nombreDinamico} />
+   
+    <Hero 
+        nombreZona={infoZona.nombreDinamico} 
+        region={infoZona.region} 
+        barrios={infoZona.barrios} 
+    />
+
+    <Servicios region={infoZona.region} nombreZona={infoZona.nombreDinamico} />
+<!--     
+    <Beneficios region={infoZona.region} nombreZona={infoZona.nombreDinamico} /> 
+    
+    <Galeria region={infoZona.region} nombreZona={infoZona.nombreDinamico} />
+    
+    <Opiniones region={infoZona.region} nombreZona={infoZona.nombreDinamico} />
+    
+    <Faq region={infoZona.region} nombreZona={infoZona.nombreDinamico} />
+    
+    <Footer/>
+    -->
+</Layout>

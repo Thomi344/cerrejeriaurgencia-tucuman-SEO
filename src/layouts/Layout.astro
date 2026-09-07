@@ -1,23 +1,168 @@
+---
+// src/layouts/Layout.astro
+
+import Whatsapp from '../components/whatsapp.astro';
+
+interface Props {
+    title?: string;
+    description?: string;
+    nombreZona?: string;
+}
+
+const { 
+    title = "Cerrajería Tucumán 24hs | Urgencias en toda la provincia | ¡Llamá ahora!",
+    description = "Cerrajero a domicilio 24 horas en Tucumán. Apertura de puertas, autos y cajas fuertes. Rápidos, limpios y con garantía en el día.",
+    nombreZona = "Tucumán"
+} = Astro.props;
+
+// Variables de entorno
+const siteUrl = import.meta.env.PUBLIC_SITE_URL;
+const gtmId = import.meta.env.PUBLIC_GTM_ID;
+const siteVerification = import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION;
+const telephone = import.meta.env.PUBLIC_TELEPHONE;
+
+const canonicalURL = new URL(Astro.url.pathname, siteUrl);
+const ogImage = new URL('/SocialShare-1.jpg', siteUrl);
+
+const businessSchema = {
+    "@context": "https://schema.org",
+    "@type": "Locksmith",
+    "name": "Cerrajería Tucumán",
+    "image": `${siteUrl}/logo-icon.webp`,
+    "@id": siteUrl,
+    "url": siteUrl,
+    "telephone": telephone,
+    "priceRange": "$$",
+    "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "San Miguel de Tucumán",
+        "addressRegion": "Tucumán",
+        "addressCountry": "AR"
+    },
+    "geo": {
+        "@type": "GeoCircle",
+        "itemOffered": {
+        "@type": "Service",
+        "name": `Cerrajería de Urgencia 24hs en ${nombreZona}`
+        },
+        "address": "Tucumán y alrededores" 
+    },
+    "openingHoursSpecification": {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": [
+        "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"
+        ],
+        "opens": "00:00",
+        "closes": "23:59"
+    }
+};
+---
+
 <!doctype html>
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
-	</head>
-	<body>
-		<slot />
-	</body>
+<html lang="es" class="scroll-smooth">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        
+        <!-- Hilo principal: Inicializamos la capa de datos para que los clicks funcionen -->
+        <!-- 1. Librería principal de Google Ads (El "cartero") -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=AW-XXXXXXXXXX"></script>
+        
+        <!-- 2. Inicialización de Google Ads (El "anotador") -->
+        <script is:inline>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){window.dataLayer.push(arguments);} 
+            gtag('js', new Date());
+            gtag('config', 'AW-XXXXXXXXXX'); // Reemplazar con ID de Ads Tucumán o pasarlo al .env también
+        </script>
+
+        <!-- 3. Google Tag Manager original usando la variable de entorno -->
+        <script is:inline define:vars={{ gtmId }}>
+            (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+            new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+            'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+            })(window,document,'script','dataLayer',gtmId);
+        </script>
+
+        <link rel="icon" type="image/webp" href="/logo-icon.webp" />
+        <link rel="preconnect" href="https://res.cloudinary.com" />      
+
+        <title>{title}</title>
+        <meta name="description" content={description} />
+        <link rel="canonical" href={canonicalURL} />
+        <meta name="robots" content="index, follow" />
+
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={description} />
+        <meta property="og:url" content={canonicalURL} />
+        <meta property="og:image" content={ogImage} />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:site_name" content="Cerrajería Tucumán" />
+        <meta property="og:locale" content="es_AR" />
+
+        <meta property="twitter:card" content="summary_large_image" />
+        <meta property="twitter:url" content={canonicalURL} />
+        <meta property="twitter:title" content={title} />
+        <meta property="twitter:description" content={description} />
+        <meta property="twitter:image" content={ogImage} />
+        
+        <meta name="google-site-verification" content={siteVerification} />
+        
+        <script type="application/ld+json" set:html={JSON.stringify(businessSchema)} />
+    </head>
+    
+    <!-- Usamos colores base de Tailwind temporales hasta armar el @theme -->
+    <body class="bg-slate-900 text-slate-200 selection:bg-blue-500/30">
+        <!-- Google Tag Manager (noscript) -->
+        <noscript><iframe src={`https://www.googletagmanager.com/ns.html?id=${gtmId}`}
+        height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+        
+        <slot /> 
+        
+        <Whatsapp nombreZona={nombreZona} />
+    </body>
 </html>
 
-<style>
-	html,
-	body {
-		margin: 0;
-		width: 100%;
-		height: 100%;
-	}
+<style is:global>
+/* Optimizamos la carga de Tailwind */
+    @import 'tailwindcss';
+
+    html,
+    body {
+        margin: 0;
+        width: 100%;
+        min-height: 100vh;
+        /* Suavizamos el renderizado de fuentes para mejorar el Speed Index */
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        text-rendering: optimizeLegibility;
+        background-color: var(--color-fondo-base);
+        color: #f3f4f6; /* text-gray-100 */
+    }
+
+    /* Aseguramos que el carrusel no bloquee el scroll horizontal */
+    #carrusel-trabajos {
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+    }
+
+    @theme {
+        /* Tonos Celestes / Sky (Seguridad, confianza y rapidez) */
+        --color-marca: #0284c7;       /* Un celeste fuerte y legible */
+        --color-marca-hover: #0369a1; /* Celeste más oscuro para los hovers */
+        --color-marca-suave: #0ea5e9; /* Celeste brillante para detalles y gradientes */
+        
+        /* Colores de WhatsApp (Mantenemos la identidad de la app) */
+        --color-wpp: #25d366; 
+        --color-wpp-hover: #20ba5a; 
+        
+        /* Fondos Oscuros (Pasamos de tonos azulados/Slate a tonos Gray/Zinc más metálicos e industriales) */
+        --color-fondo-base: #111827;  
+        --color-fondo-nav: #030712;  
+        --color-fondo-card: #1f2937; 
+        --color-borde: #374151;      
+    }
 </style>
