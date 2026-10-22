@@ -1,0 +1,141 @@
+---
+// src/pages/politica-de-privacidad.astro
+import Layout from '../layouts/Layout.astro';
+import Header from '../sections/Header.astro';
+import Footer from '../sections/Footer.astro'; 
+---
+
+<Layout
+    title="Política de Privacidad | Cerrajería Tucumán"
+    description="Cómo Cerrajería Tucumán recopila, usa y protege los datos personales que compartís al contactarnos por WhatsApp, teléfono o la web."
+>
+    <!-- Barra superior de navegación / Retorno -->
+    <Header enlacesAlInicio />
+
+    <main class="pt-28 pb-20 md:pt-36 md:pb-32 bg-fondo-base relative min-h-screen border-t border-borde">
+        
+        <!-- Glow decorativo de fondo -->
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-3xl h-64 bg-marca/5 rounded-full blur-[120px] pointer-events-none"></div>
+
+        <div class="relative z-10 max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <!-- Encabezado -->
+            <div class="mb-10 md:mb-14 border-b border-borde pb-8">
+                <h1 class="text-3xl md:text-5xl font-black text-white tracking-tight mb-4">
+                    Política de <span class="text-marca">Privacidad</span>
+                </h1>
+                <p class="text-gray-400 text-sm md:text-base font-medium">
+                    Última actualización: <span class="text-gray-300">8 de septiembre de 2026</span>
+                </p>
+            </div>
+
+            <!-- Contenido -->
+            <div class="space-y-10 text-gray-300 leading-relaxed">
+                
+                <p class="text-base md:text-lg text-gray-300">
+                    La presente Política de Privacidad regula el tratamiento de datos personales realizado a través del sitio web <strong class="text-white">cerrajeroentucuman.com</strong> y de nuestros canales de atención directa (llamadas y WhatsApp), en cumplimiento de la Ley N° 25.326 de Protección de los Datos Personales de la República Argentina y resoluciones de la Agencia de Acceso a la Información Pública (AAIP).
+                </p>
+
+                <!-- Sección 1 -->
+                <section>
+                    <h2 class="text-xl md:text-2xl font-bold text-white mb-4 flex items-center gap-2">
+                        <span class="text-marca text-sm">01.</span> Responsable del Tratamiento
+                    </h2>
+                    <ul class="list-none space-y-2 text-gray-400">
+                        <li><strong class="text-white">Nombre comercial:</strong> Cerrajería Tucumán</li>
+                        <li><strong class="text-white">Sitio web:</strong> cerrajeroentucuman.com</li>
+                        <li><strong class="text-white">Correo de contacto:</strong> cerrajeriawalter1@gmail.com</li>
+                        <li><strong class="text-white">Área de cobertura:</strong> San Miguel de Tucumán y alrededores, Provincia de Tucumán, Argentina.</li>
+                    </ul>
+                </section>
+
+                <!-- Sección 2 -->
+                <section>
+                    <h2 class="text-xl md:text-2xl font-bold text-white mb-4 flex items-center gap-2">
+                        <span class="text-marca text-sm">02.</span> Datos que Recopilamos y Finalidad del Tratamiento
+                    </h2>
+                    
+                    <h3 class="text-white font-bold mt-6 mb-2">Atención por WhatsApp y Llamadas (Urgencias):</h3>
+                    <p class="mb-3 text-gray-400">
+                        Al comunicarse por WhatsApp o llamada telefónica, el usuario proporciona voluntariamente su nombre, número de teléfono y domicilio o geolocalización.
+                    </p>
+                    <ul class="list-disc list-inside space-y-2 text-gray-400 pl-2 mb-6">
+                        <li><strong class="text-white">Finalidad:</strong> Coordinar la asistencia técnica inmediata, cotizar el trabajo, trasladarse hasta el domicilio, emitir la facturación correspondiente y verificar la legitimidad del solicitante por razones de seguridad operativa.</li>
+                        <li><strong class="text-white">Cesión:</strong> Estos datos son confidenciales y no se venden ni ceden a terceros, utilizándose exclusivamente para el servicio técnico solicitado.</li>
+                    </ul>
+
+                    <h3 class="text-white font-bold mt-6 mb-2">Herramientas de Analítica Web (Google Analytics):</h3>
+                    <p class="mb-3 text-gray-400">
+                        El sitio web utiliza Google Analytics, un servicio de analítica web prestado por Google LLC. Google Analytics recopila información estándar de registro y patrones de comportamiento de los visitantes mediante cookies e identificadores de dispositivo (dirección IP anonimizada, páginas visitadas, tiempo en el sitio, tipo de navegador y sistema operativo).
+                    </p>
+                    <ul class="list-disc list-inside space-y-2 text-gray-400 pl-2">
+                        <li><strong class="text-white">Finalidad:</strong> Evaluar el rendimiento del sitio web, optimizar la experiencia de navegación y generar métricas estadísticas.</li>
+                        <li><strong class="text-white">Transferencia Internacional:</strong> Los datos recopilados por Google Analytics pueden ser procesados en servidores ubicados fuera de la República Argentina (principalmente en Estados Unidos), bajo los estándares de seguridad y marcos de protección de datos aplicables por Google LLC.</li>
+                    </ul>
+                </section>
+
+                <!-- Sección 3 -->
+                <section>
+                    <h2 class="text-xl md:text-2xl font-bold text-white mb-4 flex items-center gap-2">
+                        <span class="text-marca text-sm">03.</span> Cookies y Enlaces a Terceros
+                    </h2>
+                    <p class="mb-4 text-gray-400">
+                        <strong class="text-white">Cookies:</strong> El usuario puede en cualquier momento configurar, bloquear o eliminar las cookies instaladas en su dispositivo mediante las opciones de configuración de su navegador web (Chrome, Firefox, Safari, Edge, etc.). La inhabilitación de cookies de analítica no impedirá el uso general del sitio web ni la solicitud de asistencia.
+                    </p>
+                    <p class="text-gray-400">
+                        <strong class="text-white">Enlaces externos e interacción con WhatsApp:</strong> La mensajería instantánea se efectúa mediante la aplicación WhatsApp (Meta Platforms, Inc.). El uso de dicha plataforma queda sujeto a sus propias políticas de privacidad y condiciones de servicio.
+                    </p>
+                </section>
+
+                <!-- Sección 4 -->
+                <section>
+                    <h2 class="text-xl md:text-2xl font-bold text-white mb-4 flex items-center gap-2">
+                        <span class="text-marca text-sm">04.</span> Conservación de los Datos
+                    </h2>
+                    <p class="text-gray-400">
+                        Los datos facilitados para los servicios de urgencia se conservan únicamente durante el tiempo necesario para la prestación del servicio, la resolución de eventuales garantías y el cumplimiento de las obligaciones legales, contables o fiscales pertinentes. Cumplido dicho plazo, se eliminan o anonimizan de forma segura.
+                    </p>
+                </section>
+
+                <!-- Sección 5 -->
+                <section>
+                    <h2 class="text-xl md:text-2xl font-bold text-white mb-4 flex items-center gap-2">
+                        <span class="text-marca text-sm">05.</span> Derechos del Titular de los Datos
+                    </h2>
+                    <p class="mb-6 text-gray-400">
+                        El titular de los datos tiene derecho a solicitar el acceso, actualización, rectificación o eliminación de sus datos personales de nuestras bases de contacto, enviando su solicitud a: <a href="mailto:cerrajeriawalter1@gmail.com" class="text-marca hover:underline">cerrajeriawalter1@gmail.com</a>.
+                    </p>
+                    <blockquote class="border-l-4 border-marca/50 pl-5 py-3 italic text-gray-400 bg-fondo-card/50 rounded-r-lg border border-y-0 border-r-0">
+                        «El titular de los datos personales tiene la facultad de ejercer el derecho de acceso a los mismos en forma gratuita a intervalos no inferiores a seis meses, salvo que se acredite un interés legítimo al efecto conforme lo establecido en el artículo 14, inciso 3 de la Ley Nº 25.326. La Agencia de Acceso a la Información Pública, órgano de control de la Ley Nº 25.326, tiene la atribución de atender las denuncias y reclamos que se interpongan con relación al incumplimiento de las normas sobre protección de datos personales.»
+                    </blockquote>
+                </section>
+
+                <!-- Sección 6 -->
+                <section>
+                    <h2 class="text-xl md:text-2xl font-bold text-white mb-4 flex items-center gap-2">
+                        <span class="text-marca text-sm">06.</span> Modificaciones
+                    </h2>
+                    <p class="text-gray-400">
+                        Nos reservamos el derecho de actualizar esta política para adaptarla a novedades legales, técnicas u operativas. Los cambios entrarán en vigor a partir de su publicación en esta misma página con la fecha de actualización correspondiente.
+                    </p>
+                </section>
+
+                <!-- Botón de retorno al pie de página -->
+                <div class="pt-8 border-t border-borde/60 flex justify-center">
+                    <a 
+                        href="/" 
+                        class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-fondo-card border border-borde hover:border-marca/50 text-white text-sm font-semibold transition-all hover:bg-fondo-nav"
+                    >
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                        </svg>
+                        Volver a la página principal
+                    </a>
+                </div>
+
+            </div>
+            
+        </div>
+    </main>
+    <Footer></Footer>
+</Layout>

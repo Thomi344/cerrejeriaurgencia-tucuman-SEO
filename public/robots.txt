@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://cerrajeroentucuman.com/sitemap-index.xml

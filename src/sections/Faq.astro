@@ -1,0 +1,181 @@
+---
+// src/sections/Faq.astro
+
+interface Props {
+    nombreZona?: string;
+}
+
+const { nombreZona = "San Miguel de Tucumán" } = Astro.props;
+
+// Array de preguntas con las negritas (strong) ahora estilizadas en color celeste (text-marca)
+const faqs = [
+    {
+        pregunta: `¿Cuánto demora su servicio de cerrajería 24hs en llegar al centro de ${nombreZona} y alrededores?`,
+        respuesta: "Nuestro tiempo de respuesta promedio es de <strong class='text-marca font-bold'>15 a 20 minutos</strong>. Al tener móviles de guardia estratégicamente ubicados, garantizamos una llegada rápida de nuestro cerrajero a domicilio para que no esperes de más en la calle."
+    },
+    {
+        pregunta: "¿Tienen que romper la cerradura o la puerta al hacer una apertura de urgencia?",
+        respuesta: "No. Somos especialistas en <strong class='text-marca font-bold'>aperturas sin daños</strong>. Utilizamos herramientas ganzúa profesionales y técnicas de precisión para abrir puertas de casas, blindex y vehículos sin rayar la pintura ni arruinar el tambor original."
+    },
+    {
+        pregunta: "¿Cuánto cuesta una apertura mínima? ¿Pasan presupuesto exacto antes de ir?",
+        respuesta: "Los precios varían según la complejidad del trabajo (tipo de cerradura, marca del auto) y el horario. Para tu total tranquilidad, <strong class='text-marca font-bold'>siempre brindamos el presupuesto exacto por WhatsApp antes de enviar al técnico</strong>. Cero sorpresas y sin costos ocultos."
+    },
+    {
+        pregunta: `¿Atienden urgencias de madrugada, domingos o días feriados en el Gran ${nombreZona}?`,
+        respuesta: "Sí, nuestro equipo de cerrajeros a domicilio está <strong class='text-marca font-bold'>disponible las 24 horas, los 365 días del año</strong>. Resolvemos emergencias nocturnas, domingos y feriados en todo el municipio y zonas aledañas."
+    },
+    {
+        pregunta: "¿Qué medios de pago aceptan para las urgencias de cerrajería?",
+        respuesta: "Podés abonar el servicio de la forma que te resulte más cómoda. Aceptamos <strong class='text-marca font-bold'>efectivo, transferencias bancarias y pagos mediante Mercado Pago</strong> al momento de finalizar el trabajo en tu domicilio o vehículo."
+    },
+    {
+        pregunta: "¿Hacen reparación y codificación de llaves de autos con chip en el acto?",
+        respuesta: "Sí, brindamos un servicio completo de <strong class='text-marca font-bold'>cerrajería automotor</strong>. Realizamos copias, clonación y programación de llaves codificadas (transponder) y telemandos para la gran mayoría de marcas nacionales e importadas."
+    }
+];
+
+// Generación del Schema Markup (JSON-LD) para Rich Snippets en Google
+const schemaFAQ = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqs.map(faq => ({
+        "@type": "Question",
+        "name": faq.pregunta,
+        "acceptedAnswer": {
+            "@type": "Answer",
+            "text": faq.respuesta.replace(/<[^>]*>?/gm, '') // Limpia las etiquetas HTML para que el Schema sea válido
+        }
+    }))
+};
+---
+
+<section id="faq" class="py-20 md:py-28 bg-fondo-nav relative overflow-hidden border-t border-borde">
+    
+    <!-- Patrón de fondo de puntitos -->
+    <div class="absolute inset-0 bg-[radial-gradient(#4b5563_1px,transparent_1px)] [background-size:24px_24px] opacity-20 pointer-events-none"></div>
+
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        
+        <!-- Encabezado SEO -->
+        <div class="text-center mb-12 md:mb-16">
+            <h2 class="text-3xl md:text-5xl font-black text-white leading-tight tracking-tight mb-4">
+                Preguntas <span class="text-marca">Frecuentes</span>
+            </h2>
+            <p class="text-gray-400 text-base md:text-xl font-medium">
+                Resolvemos tus dudas antes de que nos llames. Transparencia total en <span class="text-white font-bold">{nombreZona}</span>.
+            </p>
+        </div>
+
+        <!-- Componente Personalizado de Astro (Web Component) para máximo rendimiento -->
+        <faq-accordion class="block space-y-4">
+            {faqs.map((faq, index) => (
+                <div class="faq-item group bg-fondo-nav/80 backdrop-blur-sm border border-borde/80 rounded-xl overflow-hidden transition-all duration-300 hover:border-marca/50 hover:bg-fondo-nav relative z-10">
+                    
+                    <!-- El <h3> envuelve al botón (un heading no puede ir dentro de un <button>) -->
+                    <h3>
+                        <button
+                            type="button"
+                            class="faq-button w-full px-5 py-5 md:px-7 md:py-6 flex items-center justify-between text-left focus:outline-none"
+                            aria-expanded="false"
+                            aria-controls={`faq-content-${index}`}
+                        >
+                            <span class="text-white font-bold text-base md:text-lg pr-6 transition-colors group-hover:text-marca-suave">
+                                {faq.pregunta}
+                            </span>
+
+                            <span class="faq-icon text-gray-500 group-hover:text-marca transition-all duration-300 transform flex-shrink-0">
+                                <svg class="w-6 h-6 md:w-7 md:h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                </svg>
+                            </span>
+                        </button>
+                    </h3>
+                    
+                    <div 
+                        id={`faq-content-${index}`} 
+                        class="faq-content grid grid-rows-[0fr] opacity-0 transition-all duration-300 ease-in-out px-5 md:px-7"
+                    >
+                        <div class="overflow-hidden">
+                            <p class="text-gray-300 text-sm md:text-base leading-relaxed pb-5 md:pb-6" set:html={faq.respuesta} />
+                        </div>
+                    </div>
+
+                </div>
+            ))}
+        </faq-accordion>
+
+    </div>
+
+    <!-- Inyección del JSON-LD para Google -->
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(schemaFAQ)} />
+
+</section>
+
+<script>
+    // Uso de Web Components: La forma más optimizada en Astro para encapsular JS
+    class FaqAccordion extends HTMLElement {
+        connectedCallback() {
+            const faqItems = this.querySelectorAll('.faq-item');
+
+            faqItems.forEach(item => {
+                const button = item.querySelector('.faq-button');
+                const content = item.querySelector('.faq-content');
+                const icon = item.querySelector('.faq-icon');
+
+                if (!button || !content || !icon) return;
+
+                button.addEventListener('click', () => {
+                    const isExpanded = button.getAttribute('aria-expanded') === 'true';
+
+                    // Cerrar todos los demás automáticamente (Acordeón exclusivo)
+                    faqItems.forEach(otherItem => {
+                        if (otherItem !== item) {
+                            const otherBtn = otherItem.querySelector('.faq-button');
+                            const otherContent = otherItem.querySelector('.faq-content');
+                            const otherIcon = otherItem.querySelector('.faq-icon');
+                            
+                            if (otherBtn && otherContent && otherIcon) {
+                                otherBtn.setAttribute('aria-expanded', 'false');
+                                otherContent.classList.remove('grid-rows-[1fr]', 'opacity-100');
+                                 // Usamos setTimeout minúsculo para asegurar que la animación sea fluida al cambiar de altura
+                                setTimeout(() => otherContent.classList.add('grid-rows-[0fr]', 'opacity-0'), 10);
+                                otherIcon.classList.remove('rotate-180', 'text-marca');
+                                
+                                // Quitar estado activo (Bordes y Glow)
+                                otherItem.classList.remove('border-marca', 'bg-fondo-card', 'shadow-[0_0_15px_rgba(14,165,233,0.1)]');
+                                otherItem.classList.add('border-borde/80', 'bg-fondo-nav/80');
+                            }
+                        }
+                    });
+
+                    // Alternar el clickeado (Active State)
+                    if (!isExpanded) {
+                        // Abrir
+                        button.setAttribute('aria-expanded', 'true');
+                        content.classList.remove('grid-rows-[0fr]', 'opacity-0');
+                        setTimeout(() => content.classList.add('grid-rows-[1fr]', 'opacity-100'), 10);
+                        icon.classList.add('rotate-180', 'text-marca');
+                        
+                        // Resaltar contenedor activo
+                        item.classList.remove('border-borde/80', 'bg-fondo-nav/80');
+                        item.classList.add('border-marca', 'bg-fondo-card', 'shadow-[0_0_15px_rgba(14,165,233,0.1)]');
+                    } else {
+                        // Cerrar
+                        button.setAttribute('aria-expanded', 'false');
+                        content.classList.remove('grid-rows-[1fr]', 'opacity-100');
+                        setTimeout(() => content.classList.add('grid-rows-[0fr]', 'opacity-0'), 10);
+                        icon.classList.remove('rotate-180', 'text-marca');
+                        
+                        // Volver a estado normal
+                        item.classList.remove('border-marca', 'bg-fondo-card', 'shadow-[0_0_15px_rgba(14,165,233,0.1)]');
+                        item.classList.add('border-borde/80', 'bg-fondo-nav/80');
+                    }
+                });
+            });
+        }
+    }
+
+    // Registrar el custom element en el navegador
+    customElements.define('faq-accordion', FaqAccordion);
+</script>

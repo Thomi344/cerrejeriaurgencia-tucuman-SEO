@@ -1,6 +1,22 @@
-// src/data/zonas.js
+// src/data/zonas.ts
 
-export const zonas = [
+export interface Zona {
+    nombre: string;
+    region: string;
+    barrios: string[];
+}
+
+// Genera el segmento de URL de cada zona/barrio (Ej: "Barrio Norte" -> "cerrajero-zona-barrio-norte")
+// Es la única fuente de verdad para las rutas dinámicas y los enlaces del directorio
+export const slugZona = (texto: string) => {
+    const limpio = texto.toLowerCase()
+        .normalize("NFD").replace(/[̀-ͯ]/g, "") // Quita acentos
+        .replace(/[^a-z0-9]+/g, '-') // Cambia espacios por guiones
+        .replace(/(^-|-$)+/g, ''); // Quita guiones de los bordes
+    return `cerrajero-zona-${limpio}`;
+};
+
+export const zonas: Zona[] = [
     {
         nombre: 'San Miguel de Tucumán',
         region: 'Capital',

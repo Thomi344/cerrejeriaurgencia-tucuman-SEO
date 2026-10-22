@@ -2,6 +2,8 @@
 // src/layouts/Layout.astro
 
 import Whatsapp from '../components/whatsapp.astro';
+import CookieBanner from '../components/CookieBanner.astro';
+import { telefono } from '../utils/contacto';
 
 interface Props {
     title?: string;
@@ -16,22 +18,24 @@ const {
 } = Astro.props;
 
 // Variables de entorno
-const siteUrl = import.meta.env.PUBLIC_SITE_URL;
-const gtmId = import.meta.env.PUBLIC_GTM_ID;
 const siteVerification = import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION;
-const telephone = import.meta.env.PUBLIC_TELEPHONE;
+const googleAdsId = import.meta.env.PUBLIC_GOOGLE_ADS_ID;
+const gaId = import.meta.env.PUBLIC_GA_ID;
 
+// La URL base sale de `site` en astro.config.mjs (única fuente de verdad)
+const siteUrl = Astro.site ?? import.meta.env.PUBLIC_SITE_URL;
 const canonicalURL = new URL(Astro.url.pathname, siteUrl);
+// JPG para máxima compatibilidad en vistas previas (WhatsApp, Facebook, LinkedIn, X)
 const ogImage = new URL('/SocialShare-1.jpg', siteUrl);
 
 const businessSchema = {
     "@context": "https://schema.org",
     "@type": "Locksmith",
     "name": "Cerrajería Tucumán",
-    "image": `${siteUrl}/logo-icon.webp`,
-    "@id": siteUrl,
-    "url": siteUrl,
-    "telephone": telephone,
+    "image": new URL('/logo-icon.webp', siteUrl).href,
+    "@id": new URL('/', siteUrl).href,
+    "url": new URL('/', siteUrl).href,
+    "telephone": telefono,
     "priceRange": "$$",
     "address": {
         "@type": "PostalAddress",
@@ -40,12 +44,17 @@ const businessSchema = {
         "addressCountry": "AR"
     },
     "geo": {
-        "@type": "GeoCircle",
+        "@type": "GeoCoordinates",
+        "latitude": -26.82414,
+        "longitude": -65.2226
+    },
+    "areaServed": nombreZona,
+    "makesOffer": {
+        "@type": "Offer",
         "itemOffered": {
-        "@type": "Service",
-        "name": `Cerrajería de Urgencia 24hs en ${nombreZona}`
-        },
-        "address": "Tucumán y alrededores" 
+            "@type": "Service",
+            "name": `Cerrajería de Urgencia 24hs en ${nombreZona}`
+        }
     },
     "openingHoursSpecification": {
         "@type": "OpeningHoursSpecification",
@@ -65,64 +74,121 @@ const businessSchema = {
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         
         <!-- Hilo principal: Inicializamos la capa de datos para que los clicks funcionen -->
-        <!-- 1. Librería principal de Google Ads (El "cartero") -->
-        <script async src="https://www.googletagmanager.com/gtag/js?id=AW-XXXXXXXXXX"></script>
-        
-        <!-- 2. Inicialización de Google Ads (El "anotador") -->
+        <!-- 1. Configuración de Google Consent Mode -->
         <script is:inline>
             window.dataLayer = window.dataLayer || [];
-            function gtag(){window.dataLayer.push(arguments);} 
+            function gtag(){window.dataLayer.push(arguments);}
+            
+            // Estado por defecto: Todo denegado
+            gtag('consent', 'default', {
+                'analytics_storage': 'denied',
+                'ad_storage': 'denied',
+                'ad_user_data': 'denied',
+                'ad_personalization': 'denied'
+            });
+
+            // Revisar si ya aceptó las cookies en el pasado
+            // (try/catch: localStorage puede lanzar error en modo privado o con cookies bloqueadas)
+            try {
+                if (localStorage.getItem('cerrajeria_tucuman_cookie_consent') === 'accepted') {
+                    gtag('consent', 'update', {
+                        'analytics_storage': 'granted',
+                        'ad_storage': 'granted',
+                        'ad_user_data': 'granted',
+                        'ad_personalization': 'granted'
+                    });
+                }
+            } catch (e) {}
+        </script>
+
+        <!-- 2. Librería principal gtag.js: Google Analytics (GA) + conversiones de Google Ads -->
+        <!-- Google Tag Manager se quitó para no duplicar mediciones: GA es la única fuente -->
+        <!-- Usamos llaves para inyectar la variable en el atributo src -->
+        <script async src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}></script>
+        
+        <!-- 3. Inicialización de Google Ads (El "anotador") -->
+        <!-- Pasamos la variable al script inline con define:vars (gtag ya está definido globalmente en el paso 1) -->
+        <script is:inline define:vars={{ googleAdsId, gaId }}>
             gtag('js', new Date());
-            gtag('config', 'AW-XXXXXXXXXX'); // Reemplazar con ID de Ads Tucumán o pasarlo al .env también
+            gtag('config', googleAdsId); 
+            gtag('config', gaId);
         </script>
 
-        <!-- 3. Google Tag Manager original usando la variable de entorno -->
-        <script is:inline define:vars={{ gtmId }}>
-            (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-            new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-            'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-            })(window,document,'script','dataLayer',gtmId);
+        <!-- 4. Event snippet for Clic en Botón WhatsApp -->
+        <!-- Solo registra los eventos: el enlace sigue su curso normal y abre WhatsApp en una pestaña nueva.
+             Como esta página no se cierra, los eventos se envían igual (transport_type: beacon). -->
+        <script is:inline>
+        function gtag_report_conversion() {
+            if (typeof gtag === 'function') {
+                gtag('event', 'conversion', {
+                    'send_to': 'AW-18057083612/ytzDCP69rMYcENzlpKJD',
+                    'transport_type': 'beacon'
+                });
+                gtag('event', 'click_whatsapp', {
+                    'event_category': 'contacto',
+                    'event_label': 'Boton WhatsApp Tucuman',
+                    'transport_type': 'beacon'
+                });
+            }
+            return true;
+        }
         </script>
-
-        <link rel="icon" type="image/webp" href="/logo-icon.webp" />
-        <link rel="preconnect" href="https://res.cloudinary.com" />      
+        <!-- Color de la barra del navegador en celulares (coincide con tu fondo-base) -->
+        <meta name="theme-color" content="#111827" />
+        
+        <!-- Favicons e Íconos (usando los archivos de tu carpeta public) -->
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+        <!-- iOS no muestra apple-touch-icon en WebP: usamos PNG 180x180 -->
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+        <link rel="manifest" href="/site.webmanifest" />
+        
+        <!-- Cloudinary solo se usa al abrir un video de la galería: resolvemos el DNS sin abrir la conexión -->
+        <link rel="dns-prefetch" href="https://res.cloudinary.com" />
 
         <title>{title}</title>
         <meta name="description" content={description} />
         <link rel="canonical" href={canonicalURL} />
         <meta name="robots" content="index, follow" />
+        <!-- Metadatos de SEO Local (Geolocalización para Argentina/Tucumán) -->
+        <meta name="geo.region" content="AR-T" />
+        <meta name="geo.placename" content="San Miguel de Tucumán" />
+        <meta name="geo.position" content="-26.82414;-65.2226" />
+        <meta name="ICBM" content="-26.82414, -65.2226" />
 
+
+        <!-- Open Graph / Facebook -->
         <meta property="og:type" content="website" />
         <meta property="og:title" content={title} />
         <meta property="og:description" content={description} />
         <meta property="og:url" content={canonicalURL} />
         <meta property="og:image" content={ogImage} />
+        <meta property="og:image:type" content="image/jpeg" />
+        <meta property="og:image:alt" content="Cerrajería Tucumán - Cerrajero de urgencia 24hs" />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
         <meta property="og:site_name" content="Cerrajería Tucumán" />
         <meta property="og:locale" content="es_AR" />
 
-        <meta property="twitter:card" content="summary_large_image" />
-        <meta property="twitter:url" content={canonicalURL} />
-        <meta property="twitter:title" content={title} />
-        <meta property="twitter:description" content={description} />
-        <meta property="twitter:image" content={ogImage} />
+        <!-- Twitter -->
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:url" content={canonicalURL} />
+        <meta name="twitter:title" content={title} />
+        <meta name="twitter:description" content={description} />
+        <meta name="twitter:image" content={ogImage} />
         
         <meta name="google-site-verification" content={siteVerification} />
         
         <script type="application/ld+json" set:html={JSON.stringify(businessSchema)} />
     </head>
     
-    <!-- Usamos colores base de Tailwind temporales hasta armar el @theme -->
-    <body class="bg-slate-900 text-slate-200 selection:bg-blue-500/30">
-        <!-- Google Tag Manager (noscript) -->
-        <noscript><iframe src={`https://www.googletagmanager.com/ns.html?id=${gtmId}`}
-        height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-        
+    <!-- Fondo y color de texto definidos en el CSS global (html, body) -->
+    <body class="selection:bg-blue-500/30">
         <slot /> 
         
         <Whatsapp nombreZona={nombreZona} />
+        <CookieBanner />
     </body>
 </html>
 
@@ -141,12 +207,6 @@ const businessSchema = {
         text-rendering: optimizeLegibility;
         background-color: var(--color-fondo-base);
         color: #f3f4f6; /* text-gray-100 */
-    }
-
-    /* Aseguramos que el carrusel no bloquee el scroll horizontal */
-    #carrusel-trabajos {
-        scrollbar-width: none;
-        -ms-overflow-style: none;
     }
 
     @theme {

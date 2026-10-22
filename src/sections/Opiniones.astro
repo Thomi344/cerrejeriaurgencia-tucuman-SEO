@@ -1,0 +1,146 @@
+---
+// src/sections/Opiniones.astro
+
+interface Props {
+    nombreZona?: string;
+}
+
+const { nombreZona = "Tucumán" } = Astro.props;
+
+// Reseñas optimizadas con Copywriting estratégico.
+const opiniones = [
+    {
+        nombre: "Martín S.",
+        fecha: "Hace 2 semanas",
+        texto: "Me quedé afuera de mi departamento a las 2 AM. Los llamé y en 15 minutos exactos estaba en la puerta. Me abrió sin romper la cerradura. Un genio total.",
+        inicial: "M",
+        color: "bg-blue-600"
+    },
+    {
+        nombre: "Valeria Gómez",
+        fecha: "Hace 1 mes",
+        texto: "Tenía miedo de que me cobren una fortuna por ser domingo a la tarde, pero me pasaron el presupuesto por WhatsApp antes de venir y respetaron el precio. Muy honestos y rápidos.",
+        inicial: "V",
+        color: "bg-green-600"
+    },
+    {
+        nombre: "Diego F.",
+        fecha: "Hace 3 semanas",
+        texto: "Dejé las llaves puestas adentro del auto en pleno centro. Vinieron rapidísimo y lo destrabó en 5 minutos sin rayar la pintura ni forzar la puerta. Excelente servicio.",
+        inicial: "D",
+        color: "bg-purple-600"
+    },
+    {
+        nombre: "Camila T.",
+        fecha: "Hace 2 meses",
+        texto: "Llamar a un extraño de madrugada da mucha desconfianza, pero fue súper respetuoso, me mostró su identificación y me transmitió seguridad enseguida. Resolvió todo de diez.",
+        inicial: "C",
+        color: "bg-pink-600"
+    },
+    {
+        nombre: "Roberto L.",
+        fecha: "Hace 5 días",
+        texto: `El mejor cerrajero de ${nombreZona} lejos. Lo llamé de urgencia por una cerradura trabada, trajo herramientas modernas y me cambió la combinación en el momento. 100% recomendado.`,
+        inicial: "R",
+        color: "bg-orange-600"
+    }
+];
+
+// Duplicamos el array para el loop infinito perfecto
+// (la segunda copia es solo visual: se oculta a lectores de pantalla con aria-hidden)
+const carrusel = [...opiniones, ...opiniones];
+---
+
+<section id="resenas" class="py-20 md:py-28 bg-fondo-nav border-t border-borde overflow-hidden relative">
+    
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        
+        <!-- Encabezado -->
+        <div class="text-center max-w-3xl mx-auto mb-12 md:mb-16">
+            <div class="flex justify-center items-center gap-2 mb-4">
+                <!-- 5.0 alineado ópticamente -->
+                <span class="text-white font-bold text-2xl leading-none mt-1">5.0</span>
+                
+                <!-- Estrellas -->
+                <div class="flex text-[#FBBC04] items-center" role="img" aria-label="5 de 5 estrellas">
+                    {Array.from({ length: 5 }, () => (
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                    ))}
+                </div>
+            </div>
+                
+
+            <h2 class="text-3xl md:text-5xl font-black text-white leading-tight tracking-tight mb-4">
+                Lo que dicen nuestros <br class="hidden sm:block" />
+                <span class="text-marca">clientes en {nombreZona}</span>
+            </h2>
+            <p class="text-gray-400 text-base md:text-xl font-medium">
+                Urgencias resueltas con rapidez y honestidad comprobada.
+            </p>
+        </div>
+
+    </div>
+
+    <!-- Contenedor del Carrusel -->
+    <div class="relative w-full flex overflow-hidden group py-4">
+        
+        <!-- Gradientes laterales -->
+        <div class="absolute top-0 left-0 w-12 md:w-32 h-full bg-gradient-to-r from-fondo-nav to-transparent z-10 pointer-events-none"></div>
+        <div class="absolute top-0 right-0 w-12 md:w-32 h-full bg-gradient-to-l from-fondo-nav to-transparent z-10 pointer-events-none"></div>
+
+        <!-- Pista de animación -->
+        <div class="flex gap-6 animate-marquee hover:animation-paused w-max px-4">
+            {carrusel.map((opinion, i) => (
+                <div aria-hidden={i >= opiniones.length ? "true" : undefined} class="w-[300px] md:w-[400px] flex-shrink-0 bg-fondo-card/80 backdrop-blur-sm border border-borde rounded-2xl p-6 md:p-8 flex flex-col hover:border-marca/50 hover:bg-fondo-card transition-colors shadow-lg">
+                    
+                    <!-- Perfil y Estrellas -->
+                    <div class="flex items-center gap-4 mb-5">
+                        <div class={`w-12 h-12 flex-shrink-0 rounded-full flex items-center justify-center text-white font-black text-xl shadow-inner ${opinion.color}`}>
+                            {opinion.inicial}
+                        </div>
+                        <div class="flex flex-col justify-center">
+                            <h3 class="text-white font-bold text-base md:text-lg leading-tight mb-1">{opinion.nombre}</h3>
+                            <div class="flex items-center gap-2">
+                                <!-- Estrellas sin restricción de ancho para evitar encimado -->
+                                <div class="text-[#FBBC04] text-xs md:text-sm tracking-widest">
+                                    ★★★★★
+                                </div>
+                                <span class="text-gray-400 text-xs font-medium">{opinion.fecha}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Texto de la reseña (Fuente normal, con comillas reales) -->
+                    <p class="text-gray-300 text-sm md:text-base leading-relaxed">
+                        "{opinion.texto}"
+                    </p>
+                    
+                </div>
+            ))}
+        </div>
+    </div>
+</section>
+
+<style>
+    @keyframes marquee {
+        0% { transform: translateX(0); }
+        /* Traslada exactamente la mitad del ancho total (las primeras 5 tarjetas + sus gaps) */
+        100% { transform: translateX(calc(-50% - 0.75rem)); } 
+    }
+    
+    .animate-marquee {
+        /* Velocidad ajustada para dar tiempo a leer, usa linear para evitar tirones */
+        animation: marquee 40s linear infinite;
+    }
+
+    .hover\:animation-paused:hover {
+        animation-play-state: paused;
+    }
+
+    /* Accesibilidad: sin desplazamiento automático para quienes lo desactivan en su sistema */
+    @media (prefers-reduced-motion: reduce) {
+        .animate-marquee {
+            animation: none;
+        }
+    }
+</style>

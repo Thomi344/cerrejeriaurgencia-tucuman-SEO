@@ -1,18 +1,12 @@
 ---
 // src/sections/Servicios.astro
+import { urlWhatsapp } from '../utils/contacto';
 
 interface Props {
     nombreZona?: string;
-    region?: string;
 }
 
-const { 
-    nombreZona = "Tucumán", 
-    region = "Tucumán" 
-} = Astro.props;
-
-// Teléfono para los enlaces de las tarjetas
-const telefono = import.meta.env.PUBLIC_TELEPHONE?.replace('+', '') || "5493810000000";
+const { nombreZona = "Tucumán" } = Astro.props;
 
 const servicios = [
     {
@@ -67,8 +61,7 @@ const servicios = [
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
             {servicios.map((servicio) => {
                 // Generamos un mensaje específico para cada servicio
-                const mensaje = `Hola, necesito ayuda con: ${servicio.titulo} en ${nombreZona}`;
-                const urlServicioWpp = `https://wa.me/${telefono}?text=${encodeURIComponent(mensaje)}`;
+                const urlServicioWpp = urlWhatsapp(`Hola, necesito ayuda con: ${servicio.titulo} en ${nombreZona}`);
                 
                 return (
                     <div class="flex flex-col bg-fondo-card border border-borde rounded-2xl p-6 md:p-8 hover:-translate-y-1 hover:border-marca/50 hover:shadow-xl transition-all duration-300 group text-left relative overflow-hidden">
@@ -98,7 +91,7 @@ const servicios = [
                             href={urlServicioWpp} 
                             target="_blank" 
                             rel="noopener noreferrer" 
-                            onclick="gtag('event', 'conversion', {'send_to': 'AW-XXXXXXXXXX/TU_CODIGO_DE_CONVERSION'});"
+                            onclick="gtag_report_conversion();"
                             class="mt-auto w-full py-3 px-4 rounded-xl bg-marca hover:bg-marca-hover text-white font-bold text-base flex items-center justify-center gap-2 shadow-md hover:shadow-lg transition-all active:scale-95"
                         >
                             <span>Solicitar servicio</span>

@@ -1,0 +1,204 @@
+---
+// src/pages/terminos-y-condiciones.astro
+import Layout from '../layouts/Layout.astro';
+import Header from '../sections/Header.astro';
+import Footer from '../sections/Footer.astro'; 
+---
+
+<Layout
+    title="Términos y Condiciones | Cerrajería Tucumán"
+    description="Términos y condiciones del servicio de cerrajería de urgencia 24hs en Tucumán: presupuestos, tiempos de llegada, cancelaciones y garantía."
+>
+    <!-- Barra superior de navegación / Retorno -->
+    <Header enlacesAlInicio />
+
+    <main class="pt-28 pb-20 md:pt-36 md:pb-32 bg-fondo-base relative min-h-screen border-t border-borde">
+        
+        <!-- Glow decorativo de fondo -->
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-3xl h-64 bg-marca/5 rounded-full blur-[120px] pointer-events-none"></div>
+
+        <div class="relative z-10 max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <!-- Encabezado -->
+            <div class="mb-10 md:mb-14 border-b border-borde pb-8">
+                <h1 class="text-3xl md:text-5xl font-black text-white tracking-tight mb-4 uppercase">
+                    Términos y <span class="text-marca">Condiciones</span>
+                </h1>
+                <p class="text-gray-400 text-sm md:text-base font-medium">
+                    Última actualización: <span class="text-gray-300">8 de septiembre de 2026</span>
+                </p>
+            </div>
+
+            <!-- Contenido -->
+            <div class="space-y-10 text-gray-300 leading-relaxed">
+                
+                <div class="space-y-4 text-base md:text-lg text-gray-300">
+                    <p>
+                        El presente documento establece los Términos y Condiciones que rigen el acceso, navegación y uso del sitio web <strong class="text-white">cerrajeroentucuman.com</strong> (en adelante, el "Sitio Web"), así como la contratación de los servicios técnicos prestados por <strong class="text-white">Cerrajería Tucumán</strong> (en adelante, el "Prestador"), con sede de operaciones en San Miguel de Tucumán, Provincia de Tucumán, Argentina.
+                    </p>
+                    <p>
+                        Al acceder al Sitio Web o solicitar nuestros servicios a través de cualquier canal de contacto (llamada telefónica, WhatsApp o correo electrónico), el usuario (en adelante, el "Cliente") declara haber leído, comprendido y aceptado expresamente la totalidad de las siguientes cláusulas, reguladas bajo la Ley de Defensa del Consumidor (Ley N° 24.240) y el Código Civil y Comercial de la Nación.
+                    </p>
+                </div>
+
+                <!-- Sección 1 -->
+                <section>
+                    <h2 class="text-xl md:text-2xl font-bold text-white mb-4 flex items-center gap-2">
+                        <span class="text-marca text-sm">01.</span> Objeto y Naturaleza del Servicio
+                    </h2>
+                    <p class="text-gray-400">
+                        El Sitio Web tiene como finalidad brindar información sobre los servicios de cerrajería domiciliaria, comercial y del automotor (aperturas, cambios de combinación, reparación de cerraduras, copias de llaves, etc.) y facilitar un canal de contacto directo para la atención de urgencias y trabajos programados. El Sitio Web no es una plataforma de comercio electrónico tradicional ni exige la creación de cuentas de usuario.
+                    </p>
+                </section>
+
+                <!-- Sección 2 -->
+                <section>
+                    <h2 class="text-xl md:text-2xl font-bold text-white mb-4 flex items-center gap-2">
+                        <span class="text-marca text-sm">02.</span> Condiciones Particulares del Servicio de Cerrajería
+                    </h2>
+                    
+                    <div class="space-y-6 text-gray-400">
+                        <div>
+                            <h3 class="text-white font-bold mb-2">Acreditación de Titularidad (Requisito Excluyente):</h3>
+                            <p>
+                                Por estrictas razones de seguridad pública y protección a la propiedad privada, el Cliente declara bajo juramento ser el legítimo propietario, locatario, poseedor o persona debidamente autorizada respecto al inmueble, vehículo o mueble sobre el cual solicita el servicio de apertura o reparación. El personal técnico interviniente podrá exigir, previo a iniciar cualquier maniobra, la exhibición del DNI original, contrato de alquiler, título de propiedad, cédula del automotor o cualquier documentación que acredite fehacientemente el derecho sobre el bien. El Prestador se reserva el derecho absoluto de negarse a realizar el trabajo si existieren sospechas razonables sobre la legitimidad de la solicitud, quedando eximido de cualquier responsabilidad civil o penal frente a declaraciones falsas u omisiones dolosas del Cliente.
+                            </p>
+                        </div>
+
+                        <div>
+                            <h3 class="text-white font-bold mb-2">Presupuestos y Tiempos de Llegada:</h3>
+                            <p>
+                                Toda cotización, estimación de costos o tiempo de arribo brindado de forma telefónica o mediante mensajería instantánea tiene carácter orientativo y preliminar. El costo definitivo del servicio será confirmado por el técnico únicamente tras la inspección ocular en el lugar, pudiendo variar según la complejidad real del mecanismo, daños preexistentes o repuestos necesarios.
+                            </p>
+                        </div>
+
+                        <div>
+                            <h3 class="text-white font-bold mb-2">Cancelaciones, Falsas Alarmas y Costo de Visita:</h3>
+                            <p>
+                                Una vez que el Cliente acepta la solicitud de asistencia de urgencia y el Prestador despacha una unidad móvil hacia el domicilio indicado, la cancelación intempestiva del servicio por parte del Cliente (ya sea mientras el técnico está en viaje o al llegar al domicilio) devengará de forma obligatoria el cobro del "Costo de Visita Técnica y Traslado".
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Sección 3 -->
+                <section>
+                    <h2 class="text-xl md:text-2xl font-bold text-white mb-4 flex items-center gap-2">
+                        <span class="text-marca text-sm">03.</span> Tarifas, Medios de Pago y Facturación
+                    </h2>
+                    <p class="text-gray-400">
+                        Las tarifas por los servicios prestados se informarán en moneda de curso legal (Pesos Argentinos). Salvo acuerdo previo en contrario, el pago de los servicios de urgencia y reparaciones se deberá cancelar en su totalidad de manera inmediata al finalizar el trabajo en el lugar. Los medios de pago aceptados incluyen <strong class="text-white">efectivo, transferencia bancaria y plataformas de pago digital</strong> debidamente informadas por el técnico.
+                    </p>
+                </section>
+
+                <!-- Sección 4 -->
+                <section>
+                    <h2 class="text-xl md:text-2xl font-bold text-white mb-4 flex items-center gap-2">
+                        <span class="text-marca text-sm">04.</span> Garantías y Limitación de Responsabilidad
+                    </h2>
+                    
+                    <ul class="space-y-4 text-gray-400">
+                        <li>
+                            <strong class="text-white block mb-1">Garantía de Repuestos e Instalaciones:</strong> 
+                            Las cerraduras, tambores, cilindros y repuestos nuevos provistos e instalados por el Prestador cuentan con la garantía de fábrica correspondiente a su marca. La mano de obra de instalación cuenta con una garantía técnica de 30 días corridos desde la ejecución del trabajo.
+                        </li>
+                        <li>
+                            <strong class="text-white block mb-1">Exclusiones de la Garantía:</strong> 
+                            La garantía quedará automáticamente anulada si el mecanismo o cerradura presenta signos de manipulación por parte de terceros, desgaste por uso indebido, intentos de forzamiento, vandalismo, o daños ocasionados por factores climáticos severos.
+                        </li>
+                        <li>
+                            <strong class="text-white block mb-1">Aperturas Forzosas:</strong> 
+                            En situaciones de urgencia extrema o cuando las características técnicas de la cerradura/puerta imposibiliten una apertura "limpia", el técnico informará al Cliente la necesidad de realizar maniobras destructivas sobre el cilindro o mecanismos anexos. El Prestador no se responsabiliza por los daños estéticos o estructurales que sean consecuencia inevitable del procedimiento de apertura de urgencia autorizado por el Cliente.
+                        </li>
+                    </ul>
+                </section>
+
+                <!-- Sección 5 -->
+                <section>
+                    <h2 class="text-xl md:text-2xl font-bold text-white mb-4 flex items-center gap-2">
+                        <span class="text-marca text-sm">05.</span> Propiedad Intelectual y Uso Prohibido del Sitio Web
+                    </h2>
+                    <p class="text-gray-400 mb-4">
+                        Todo el contenido alojado en el Sitio Web (textos, logotipos, imágenes, diseño gráfico, código fuente) es propiedad exclusiva de Cerrajería Tucumán. Queda estrictamente prohibido al usuario:
+                    </p>
+                    <ul class="list-disc list-inside space-y-2 text-gray-400 pl-2">
+                        <li>Copiar, reproducir, raspar (data scraping) o utilizar con fines comerciales o de competencia desleal el contenido o los números de contacto del Sitio Web.</li>
+                        <li>Utilizar el Sitio Web o los canales de contacto para cursar solicitudes falsas de asistencia técnica, enviar correo no deseado (spam), hostigar o realizar bromas que interfieran con la correcta operatividad del servicio de urgencias.</li>
+                        <li>Intentar vulnerar las medidas de seguridad informática del servidor donde se aloja la plataforma.</li>
+                    </ul>
+                </section>
+
+                <!-- Sección 6 -->
+                <section>
+                    <h2 class="text-xl md:text-2xl font-bold text-white mb-4 flex items-center gap-2">
+                        <span class="text-marca text-sm">06.</span> Enlaces y Plataformas de Terceros
+                    </h2>
+                    <p class="text-gray-400">
+                        El Sitio Web utiliza enlaces directos a la aplicación WhatsApp (propiedad de Meta Platforms, Inc.) para agilizar las comunicaciones. El Prestador no tiene control ni responsabilidad sobre las políticas de privacidad, términos de uso, disponibilidad o fallas operativas de dichas plataformas de terceros.
+                    </p>
+                </section>
+
+                <!-- Sección 7 -->
+                <section>
+                    <h2 class="text-xl md:text-2xl font-bold text-white mb-4 flex items-center gap-2">
+                        <span class="text-marca text-sm">07.</span> Privacidad y Protección de Datos Personales
+                    </h2>
+                    <p class="text-gray-400">
+                        El tratamiento de los datos personales suministrados por el Cliente (nombre, teléfono, domicilio o ubicación para la asistencia) se realiza en estricto cumplimiento de la Ley N° 25.326 de Protección de los Datos Personales. Los detalles completos sobre la recopilación, finalidad y derechos del usuario se encuentran regulados en nuestra <a href="/politica-de-privacidad" class="text-marca hover:underline">Política de Privacidad</a>, disponible en el Sitio Web.
+                    </p>
+                </section>
+
+                <!-- Sección 8 -->
+                <section>
+                    <h2 class="text-xl md:text-2xl font-bold text-white mb-4 flex items-center gap-2">
+                        <span class="text-marca text-sm">08.</span> Modificaciones a los Términos y Condiciones
+                    </h2>
+                    <p class="text-gray-400">
+                        El Prestador se reserva el derecho de actualizar, modificar o reemplazar cualquier parte de estos Términos y Condiciones en cualquier momento, sin necesidad de notificación previa individualizada. Las modificaciones entrarán en vigor de manera inmediata tras su publicación en el Sitio Web, indicando la fecha de la última actualización en el encabezado. Es responsabilidad del Cliente revisar esta página periódicamente.
+                    </p>
+                </section>
+
+                <!-- Sección 9 -->
+                <section>
+                    <h2 class="text-xl md:text-2xl font-bold text-white mb-4 flex items-center gap-2">
+                        <span class="text-marca text-sm">09.</span> Ley Aplicable y Jurisdicción Territorial
+                    </h2>
+                    <p class="text-gray-400">
+                        Para toda cuestión interpretativa o litigiosa derivada del uso del Sitio Web o la prestación de los servicios técnicos, será de aplicación exclusiva la legislación de la República Argentina. Ambas partes se someten voluntariamente a la jurisdicción de los Tribunales Ordinarios de la ciudad de San Miguel de Tucumán, Provincia de Tucumán, renunciando a cualquier otro fuero o jurisdicción que pudiera corresponderles.
+                    </p>
+                </section>
+
+                <!-- Sección 10 -->
+                <section>
+                    <h2 class="text-xl md:text-2xl font-bold text-white mb-4 flex items-center gap-2">
+                        <span class="text-marca text-sm">10.</span> Contacto y Reclamos
+                    </h2>
+                    <p class="text-gray-400 mb-4">
+                        Para solicitar soporte, formular reclamos o realizar consultas sobre estos Términos y Condiciones, el Cliente puede comunicarse con Cerrajería Tucumán a través de los siguientes medios:
+                    </p>
+                    <ul class="list-none space-y-2 text-gray-400 bg-fondo-card/50 p-6 rounded-xl border border-borde">
+                        <li><strong class="text-white">Teléfono:</strong> 11 5097-4821</li>
+                        <li><strong class="text-white">Correo Electrónico:</strong> <a href="mailto:cerrajeriawalter1@gmail.com" class="text-marca hover:underline">cerrajeriawalter1@gmail.com</a></li>
+                        <li><strong class="text-white">Domicilio de operaciones:</strong> San Miguel de Tucumán, Tucumán, Argentina (CP 4000)</li>
+                    </ul>
+                </section>
+
+                <!-- Botón de retorno al pie de página -->
+                <div class="pt-8 border-t border-borde/60 flex justify-center">
+                    <a 
+                        href="/" 
+                        class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-fondo-card border border-borde hover:border-marca/50 text-white text-sm font-semibold transition-all hover:bg-fondo-nav"
+                    >
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                        </svg>
+                        Volver a la página principal
+                    </a>
+                </div>
+
+            </div>
+            
+        </div>
+    </main>
+    <Footer></Footer>
+</Layout>

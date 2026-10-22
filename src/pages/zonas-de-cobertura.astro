@@ -1,0 +1,87 @@
+---
+// src/pages/zonas-de-cobertura.astro
+import Layout from '../layouts/Layout.astro';
+import { zonas, slugZona } from '../data/zonas';
+import Header from '../sections/Header.astro';
+import Footer from '../sections/Footer.astro';
+
+const title = "Directorio de Zonas | Cerrajería Tucumán 24hs";
+const description = "Directorio completo de todas las zonas y barrios donde prestamos servicio de cerrajería de urgencia 24hs en San Miguel de Tucumán y alrededores.";
+---
+
+<Layout title={title} description={description}>
+    <!-- Barra superior de navegación / Retorno -->
+    <Header enlacesAlInicio />
+
+    <main class="pt-15 pb-20 md:pt-22 md:pb-32 bg-fondo-base relative min-h-screen border-t border-borde">
+        
+        <!-- Glow decorativo de fondo -->
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-64 bg-marca/5 rounded-full blur-[120px] pointer-events-none"></div>
+
+        <div class="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <!-- Encabezado de la página -->
+            <div class="mb-12 border-b border-borde pb-8 text-center md:text-left">
+                <h1 class="text-3xl md:text-5xl font-black text-white tracking-tight mb-4 uppercase">
+                    Zonas de <span class="text-marca">Cobertura</span>
+                </h1>
+                <p class="text-gray-400 text-sm md:text-base font-medium max-w-2xl">
+                    {description} Seleccioná tu zona o barrio para ver los servicios de cerrajería disponibles cerca tuyo con llegada inmediata.
+                </p>
+            </div>
+
+            <!-- Grilla de Directorio -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+                {zonas.map((zona) => (
+                    <div class="bg-fondo-card/30 border border-borde/60 rounded-2xl p-6 shadow-lg shadow-marca/5 hover:border-marca/50 transition-colors duration-300 backdrop-blur-sm flex flex-col">
+
+                        <!-- Título de la Zona Principal (Ciudad/Municipio) -->
+                        <h2 class="text-xl font-bold text-white uppercase border-b border-borde/50 pb-3 mb-4 flex items-center gap-2">
+                            <svg class="w-5 h-5 text-marca flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                            </svg>
+                            <a href={`/${slugZona(zona.nombre)}/`} class="hover:text-marca transition-colors line-clamp-1">
+                                {zona.nombre}
+                            </a>
+                        </h2>
+
+                        <!-- Lista de Barrios -->
+                        <div class="flex-1">
+                            <h3 class="text-xs font-bold text-marca mb-3 tracking-wider uppercase">Cerrajería en:</h3>
+                            <ul class="space-y-2.5">
+                                {zona.barrios.map(barrio => (
+                                    <li>
+                                        <a 
+                                            href={`/${slugZona(barrio)}/`} 
+                                            class="text-gray-400 text-sm hover:text-white transition-colors flex items-center gap-2 group"
+                                        >
+                                            <span class="w-1.5 h-1.5 rounded-full bg-borde group-hover:bg-marca transition-colors flex-shrink-0"></span>
+                                            <span class="truncate">Cerrajero en {barrio}</span>
+                                        </a>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+
+                    </div>
+                ))}
+            </div>
+
+            <!-- Botón de retorno al pie de página -->
+            <div class="mt-16 pt-8 border-t border-borde/60 flex justify-center">
+                <a 
+                    href="/" 
+                    class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-fondo-card border border-borde hover:border-marca/50 text-white text-sm font-semibold transition-all hover:bg-fondo-nav"
+                >
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                    </svg>
+                    Volver a la página principal
+                </a>
+            </div>
+
+        </div>
+    </main>
+    <Footer></Footer>
+</Layout>
