@@ -215,9 +215,13 @@ const businessSchema = {
         --color-marca-hover: #0369a1; /* Celeste más oscuro para los hovers */
         --color-marca-suave: #0ea5e9; /* Celeste brillante para detalles y gradientes */
         
-        /* Colores de WhatsApp (Mantenemos la identidad de la app) */
-        --color-wpp: #25d366; 
-        --color-wpp-hover: #20ba5a; 
+        /* Colores de WhatsApp
+           Fondo de los botones con texto/ícono blanco: verde oscuro (green-700) para cumplir WCAG AA.
+           #25d366 + blanco da 1.98:1 y Lighthouse lo marca; #15803d + blanco da 5.02:1. */
+        --color-wpp: #15803d;         /* green-700 */
+        --color-wpp-hover: #166534;   /* green-800 (7.1:1) */
+        /* Verde original de la marca: solo para detalles decorativos sin texto (puntos, halos) */
+        --color-wpp-brillo: #25d366;
         
         /* Fondos Oscuros (Pasamos de tonos azulados/Slate a tonos Gray/Zinc más metálicos e industriales) */
         --color-fondo-base: #111827;  
