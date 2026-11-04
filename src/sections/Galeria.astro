@@ -144,8 +144,8 @@ const responsive = (img: ImageMetadata) => {
             <!-- Elemento Imagen -->
             <img id="lightbox-img" class="hidden max-h-[85vh] max-w-[95vw] object-contain rounded-xl shadow-2xl" alt="Trabajo realizado" />
             
-            <!-- Elemento Video -->
-            <video id="lightbox-video" class="hidden max-h-[85vh] max-w-[95vw] object-contain rounded-xl shadow-2xl bg-black" controls playsinline>
+            <!-- Elemento Video (sin src hasta el clic; preload="none" garantiza que no se descargue nada antes) -->
+            <video id="lightbox-video" class="hidden max-h-[85vh] max-w-[95vw] object-contain rounded-xl shadow-2xl bg-black" controls playsinline preload="none">
                 Tu navegador no soporta videos.
             </video>
 
