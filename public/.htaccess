@@ -1,23 +1,70 @@
 # Archivo: public/.htaccess
+# Servidor: Apache detrás del proxy de Cloudflare. Build de Astro con
+# trailingSlash: 'always' y build.format: 'directory'.
 
-Options -MultiViews
+Options -MultiViews -Indexes
+DirectoryIndex index.html
 RewriteEngine On
 RewriteBase /
 
-# 1. Forzar HTTPS (Crucial para seguridad y SEO)
-RewriteCond %{HTTPS} off
-RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
+# ---------------------------------------------------------------------------
+# 1. Canonicalización en UN solo salto 301
+#    (http/www/sin barra -> https://cerrajeroentucuman.com/ruta/)
+#    Detrás de Cloudflare %{HTTPS} puede valer "off" aunque el visitante use
+#    HTTPS (modo SSL "Flexible"), por eso también miramos X-Forwarded-Proto y
+#    CF-Visitor. Sin esto, el sitio entra en un bucle de redirecciones.
+# ---------------------------------------------------------------------------
 
-# 2. Forzar la barra final (trailing slash) en URLs que no sean archivos físicos (.jpg, .css, etc.)
-# Esto previene el error de URL canónica y contenido duplicado.
+# 1a. URL de página sin barra final -> agrega "/" (y de paso fuerza https + sin www).
+#     Excluye archivos reales y rutas con extensión (.xml, .webp, .js, etc.).
 RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_URI} !(.*)/$
-RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1/ [L,R=301]
+RewriteCond %{REQUEST_URI} !/$
+RewriteCond %{REQUEST_URI} !\.[a-zA-Z0-9]{1,5}$
+RewriteCond %{HTTP_HOST} ^(?:www\.)?(.+)$ [NC]
+RewriteRule ^(.*)$ https://%1/$1/ [R=301,L]
 
-# 3. Servir el index.html de subcarpetas si existe (Vital para las rutas estáticas de Astro)
+# 1b. Forzar HTTPS (solo si ni Apache ni Cloudflare reportan https)
+RewriteCond %{HTTPS} off
+RewriteCond %{HTTP:X-Forwarded-Proto} !https
+RewriteCond %{HTTP:CF-Visitor} !https
+RewriteCond %{HTTP_HOST} ^(?:www\.)?(.+)$ [NC]
+RewriteRule ^(.*)$ https://%1/$1 [R=301,L]
+
+# 1c. Quitar www (el dominio canónico es el de `site` en astro.config.mjs)
+RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
+RewriteRule ^(.*)$ https://%1/$1 [R=301,L]
+
+# ---------------------------------------------------------------------------
+# 2. Servir el index.html de cada carpeta generada por Astro
+#    (/cerrajero-zona-yerba-buena/ -> /cerrajero-zona-yerba-buena/index.html)
+# ---------------------------------------------------------------------------
 RewriteCond %{REQUEST_FILENAME} -d
 RewriteCond %{REQUEST_FILENAME}/index.html -f
 RewriteRule ^(.*)$ $1/index.html [L]
 
-# 4. Manejo de error 404 personalizado
+# ---------------------------------------------------------------------------
+# 3. 404 personalizado (Astro genera dist/404.html en la raíz)
+# ---------------------------------------------------------------------------
 ErrorDocument 404 /404.html
+
+# ---------------------------------------------------------------------------
+# 4. Caché del navegador (mejora visitas repetidas y Core Web Vitals)
+#    /_astro/ lleva hash en el nombre: se puede cachear un año como inmutable.
+#    El HTML se revalida siempre para que los cambios se vean al instante.
+# ---------------------------------------------------------------------------
+<IfModule mod_headers.c>
+    <If "%{REQUEST_URI} =~ m#^/_astro/#">
+        Header set Cache-Control "public, max-age=31536000, immutable"
+    </If>
+    <FilesMatch "\.(html)$">
+        Header set Cache-Control "public, max-age=0, must-revalidate"
+    </FilesMatch>
+    <FilesMatch "\.(ico|png|jpg|jpeg|webp|svg|webmanifest)$">
+        Header set Cache-Control "public, max-age=2592000"
+    </FilesMatch>
+</IfModule>
+
+# Compresión (Cloudflare ya comprime hacia el visitante; esto cubre el tramo origen -> Cloudflare)
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/css application/javascript application/json image/svg+xml application/xml text/xml application/manifest+json
+</IfModule>
