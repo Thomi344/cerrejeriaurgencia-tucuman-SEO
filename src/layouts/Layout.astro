@@ -9,12 +9,15 @@ interface Props {
     title?: string;
     description?: string;
     nombreZona?: string;
+    // true en páginas que no deben indexarse (ej: 404): agrega noindex y omite canonical/og:url
+    noindex?: boolean;
 }
 
-const { 
+const {
     title = "Cerrajería Tucumán 24hs | Urgencias en toda la provincia | ¡Llamá ahora!",
     description = "Cerrajero a domicilio 24 horas en Tucumán. Apertura de puertas, autos y cajas fuertes. Rápidos, limpios y con garantía en el día.",
-    nombreZona = "Tucumán"
+    nombreZona = "Tucumán",
+    noindex = false
 } = Astro.props;
 
 // Variables de entorno
@@ -104,14 +107,17 @@ const businessSchema = {
         <!-- 2. Librería principal gtag.js: Google Analytics (GA) + conversiones de Google Ads -->
         <!-- Google Tag Manager se quitó para no duplicar mediciones: GA es la única fuente -->
         <!-- Usamos llaves para inyectar la variable en el atributo src -->
-        <script async src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}></script>
-        
+        <!-- Solo se imprime si hay ID configurado (evita pedir gtag/js?id=undefined si falta el .env) -->
+        {(gaId || googleAdsId) && (
+            <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${gaId || googleAdsId}`}></script>
+        )}
+
         <!-- 3. Inicialización de Google Ads (El "anotador") -->
         <!-- Pasamos la variable al script inline con define:vars (gtag ya está definido globalmente en el paso 1) -->
         <script is:inline define:vars={{ googleAdsId, gaId }}>
             gtag('js', new Date());
-            gtag('config', googleAdsId); 
-            gtag('config', gaId);
+            if (googleAdsId) gtag('config', googleAdsId);
+            if (gaId) gtag('config', gaId);
         </script>
 
         <!-- 4. Event snippet for Clic en Botón WhatsApp -->
@@ -149,8 +155,13 @@ const businessSchema = {
 
         <title>{title}</title>
         <meta name="description" content={description} />
-        <link rel="canonical" href={canonicalURL} />
-        <meta name="robots" content="index, follow" />
+        {noindex
+            ? <meta name="robots" content="noindex, follow" />
+            : <>
+                <link rel="canonical" href={canonicalURL} />
+                <meta name="robots" content="index, follow" />
+              </>
+        }
         <!-- Metadatos de SEO Local (Geolocalización para Argentina/Tucumán) -->
         <meta name="geo.region" content="AR-T" />
         <meta name="geo.placename" content="San Miguel de Tucumán" />
@@ -162,7 +173,7 @@ const businessSchema = {
         <meta property="og:type" content="website" />
         <meta property="og:title" content={title} />
         <meta property="og:description" content={description} />
-        <meta property="og:url" content={canonicalURL} />
+        {!noindex && <meta property="og:url" content={canonicalURL} />}
         <meta property="og:image" content={ogImage} />
         <meta property="og:image:type" content="image/jpeg" />
         <meta property="og:image:alt" content="Cerrajería Tucumán - Cerrajero de urgencia 24hs" />
@@ -173,12 +184,11 @@ const businessSchema = {
 
         <!-- Twitter -->
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:url" content={canonicalURL} />
         <meta name="twitter:title" content={title} />
         <meta name="twitter:description" content={description} />
         <meta name="twitter:image" content={ogImage} />
-        
-        <meta name="google-site-verification" content={siteVerification} />
+
+        {siteVerification && <meta name="google-site-verification" content={siteVerification} />}
         
         <script type="application/ld+json" set:html={JSON.stringify(businessSchema)} />
     </head>
